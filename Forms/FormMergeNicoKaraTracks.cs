@@ -9,18 +9,15 @@
 // ----------------------------------------------------------------------------
 
 using MergeNicoKaraTracks.SharedMisc;
+
 using Shinta;
+
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MergeNicoKaraTracks.Forms
@@ -220,10 +217,13 @@ namespace MergeNicoKaraTracks.Forms
 			SetMnktSettings();
 
 			// タイトルバー
-			Text = MnktConstants.APP_NAME_J + "  " + MnktConstants.APP_VER;
+			Text = MnktConstants.APP_NAME_J;
 #if DEBUG
 			Text = "［デバッグ］" + Text;
 #endif
+
+			// ステータスバー
+			ToolStripStatusLabelStatus.Text = MnktConstants.APP_VER + "  /  " + MnktConstants.COPYRIGHT_J;
 
 			// 映像使用
 			RadioButtonOff.Checked = true;

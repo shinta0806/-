@@ -83,7 +83,10 @@
 			this.ButtonBrowseInputMovieOff2 = new System.Windows.Forms.Button();
 			this.OpenFileDialogMisc = new System.Windows.Forms.OpenFileDialog();
 			this.button1 = new System.Windows.Forms.Button();
+			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+			this.ToolStripStatusLabelStatus = new System.Windows.Forms.ToolStripStatusLabel();
 			this.groupBox1.SuspendLayout();
+			this.statusStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -597,12 +600,29 @@
 			this.button1.UseVisualStyleBackColor = true;
 			this.button1.Click += new System.EventHandler(this.button1_Click);
 			// 
+			// statusStrip1
+			// 
+			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ToolStripStatusLabelStatus});
+			this.statusStrip1.Location = new System.Drawing.Point(0, 345);
+			this.statusStrip1.Name = "statusStrip1";
+			this.statusStrip1.Size = new System.Drawing.Size(1083, 22);
+			this.statusStrip1.SizingGrip = false;
+			this.statusStrip1.TabIndex = 52;
+			this.statusStrip1.Text = "statusStrip1";
+			// 
+			// ToolStripStatusLabelStatus
+			// 
+			this.ToolStripStatusLabelStatus.Name = "ToolStripStatusLabelStatus";
+			this.ToolStripStatusLabelStatus.Size = new System.Drawing.Size(0, 17);
+			// 
 			// FormMergeNicoKaraTracks
 			// 
 			this.AllowDrop = true;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(1083, 344);
+			this.ClientSize = new System.Drawing.Size(1083, 367);
+			this.Controls.Add(this.statusStrip1);
 			this.Controls.Add(this.button1);
 			this.Controls.Add(this.ButtonBrowseInputMovieOff2);
 			this.Controls.Add(this.ButtonBrowseInputMovieOff);
@@ -663,6 +683,8 @@
 			this.DragDrop += new System.Windows.Forms.DragEventHandler(this.FormMergeNicoKaraTracks_DragDrop);
 			this.DragEnter += new System.Windows.Forms.DragEventHandler(this.FormMergeNicoKaraTracks_DragEnter);
 			this.groupBox1.ResumeLayout(false);
+			this.statusStrip1.ResumeLayout(false);
+			this.statusStrip1.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -725,6 +747,8 @@
 		private System.Windows.Forms.Button ButtonBrowseInputMovieOff2;
 		private System.Windows.Forms.OpenFileDialog OpenFileDialogMisc;
 		private System.Windows.Forms.Button button1;
+		private System.Windows.Forms.StatusStrip statusStrip1;
+		private System.Windows.Forms.ToolStripStatusLabel ToolStripStatusLabelStatus;
 	}
 }
 
