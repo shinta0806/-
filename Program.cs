@@ -1,12 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿// ============================================================================
+// 
+// アプリケーション
+// 
+// ============================================================================
+
+// ----------------------------------------------------------------------------
+// 
+// ----------------------------------------------------------------------------
+
+using MergeNicoKaraTracks.Forms;
+
+using System;
 using System.Windows.Forms;
 
 namespace MergeNicoKaraTracks
 {
-    static class Program
+	static class Program
     {
         /// <summary>
         /// アプリケーションのメイン エントリ ポイントです。
@@ -16,7 +25,9 @@ namespace MergeNicoKaraTracks
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MergeNicoKaraTracks());
+            Application.Run(new FormMergeNicoKaraTracks());
         }
     }
+	// static class Program ___END___
 }
+// namespace MergeNicoKaraTracks ___END___
