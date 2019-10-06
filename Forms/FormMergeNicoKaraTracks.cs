@@ -18,6 +18,7 @@ using System.Drawing;
 using System.IO;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MergeNicoKaraTracks.Forms
@@ -223,7 +224,7 @@ namespace MergeNicoKaraTracks.Forms
 #endif
 
 			// ステータスバー
-			ToolStripStatusLabelStatus.Text = MnktConstants.APP_VER + "  /  " + MnktConstants.COPYRIGHT_J;
+			ToolStripStatusLabelStatus.Text = MnktConstants.APP_VER + "   /   " + MnktConstants.COPYRIGHT_J + "   ";
 
 			// 映像使用
 			RadioButtonOff.Checked = true;
@@ -248,62 +249,99 @@ namespace MergeNicoKaraTracks.Forms
 		// --------------------------------------------------------------------
 		// 結合
 		// --------------------------------------------------------------------
-		private void Merge()
+		private Task Merge()
 		{
-			StringBuilder aParam = new StringBuilder();
-
-			// 引数（映像）
-			aParam.Append("-add \"");
-			aParam.Append(VideoPath());
-			aParam.Append("#video\" ");
-
-			// 引数（On）
-			aParam.Append("-add \"");
-			aParam.Append(LabelInputMovieOn.Text);
-			aParam.Append("#audio:name=");
-			aParam.Append(TrackName("On", TextBoxTrackNameAddOn.Text));
-			aParam.Append(":lang=ja\" ");
-
-			if (IsOn2Enabled())
+			return Task.Run(() =>
 			{
-				// 引数（On2）
-				aParam.Append("-add \"");
-				aParam.Append(LabelInputMovieOn2.Text);
-				aParam.Append("#audio:name=");
-				aParam.Append(TrackName("On", TextBoxTrackNameAddOn2.Text));
-				aParam.Append(":lang=ja\" ");
-			}
+				try
+				{
+					// 終了時に強制終了されないように設定
+					Thread.CurrentThread.IsBackground = false;
 
-			// 引数（Off）
-			aParam.Append("-add \"");
-			aParam.Append(LabelInputMovieOff.Text);
-			aParam.Append("#audio:name=");
-			aParam.Append(TrackName("Off", TextBoxTrackNameAddOff.Text));
-			aParam.Append("\" ");
+					// UI を処理中に
+					Invoke(new Action(() =>
+					{
+						ButtonGo.Enabled = false;
+						ToolStripProgressBarStatus.Visible = true;
+					}));
 
-			if (IsOff2Enabled())
-			{
-				// 引数（Off2）
-				aParam.Append("-add \"");
-				aParam.Append(LabelInputMovieOff2.Text);
-				aParam.Append("#audio:name=");
-				aParam.Append(TrackName("Off", TextBoxTrackNameAddOff2.Text));
-				aParam.Append("\" ");
-			}
+					StringBuilder aParam = new StringBuilder();
 
-			// 引数（出力）
-			aParam.Append("-new \"");
-			aParam.Append(TextBoxOutputMovie.Text);
-			aParam.Append("\" ");
+					// 引数（映像）
+					aParam.Append("-add \"");
+					aParam.Append(VideoPath());
+					aParam.Append("#video\" ");
 
-			// MP4Box 実行
-			Process aProcess = Process.Start(Path.GetFullPath(mMnktSettings.Mp4boxPathSeed), aParam.ToString());
-			aProcess.WaitForExit();
-			if (aProcess.ExitCode != 0)
-			{
-				throw new Exception("結合中にエラーが発生しました。");
-			}
-			mLogWriter.ShowLogMessage(TraceEventType.Information, "結合完了しました。");
+					// 引数（On）
+					aParam.Append("-add \"");
+					aParam.Append(LabelInputMovieOn.Text);
+					aParam.Append("#audio:name=");
+					aParam.Append(TrackName("On", TextBoxTrackNameAddOn.Text));
+					aParam.Append(":lang=ja\" ");
+
+					if (IsOn2Enabled())
+					{
+						// 引数（On2）
+						aParam.Append("-add \"");
+						aParam.Append(LabelInputMovieOn2.Text);
+						aParam.Append("#audio:name=");
+						aParam.Append(TrackName("On", TextBoxTrackNameAddOn2.Text));
+						aParam.Append(":lang=ja\" ");
+					}
+
+					// 引数（Off）
+					aParam.Append("-add \"");
+					aParam.Append(LabelInputMovieOff.Text);
+					aParam.Append("#audio:name=");
+					aParam.Append(TrackName("Off", TextBoxTrackNameAddOff.Text));
+					aParam.Append("\" ");
+
+					if (IsOff2Enabled())
+					{
+						// 引数（Off2）
+						aParam.Append("-add \"");
+						aParam.Append(LabelInputMovieOff2.Text);
+						aParam.Append("#audio:name=");
+						aParam.Append(TrackName("Off", TextBoxTrackNameAddOff2.Text));
+						aParam.Append("\" ");
+					}
+
+					// 引数（出力）
+					aParam.Append("-new \"");
+					aParam.Append(TextBoxOutputMovie.Text);
+					aParam.Append("\" ");
+
+					// MP4Box 実行
+					ProcessStartInfo aInfo = new ProcessStartInfo(Path.GetFullPath(mMnktSettings.Mp4boxPathSeed), aParam.ToString());
+					aInfo.WindowStyle = ProcessWindowStyle.Hidden;
+					Process aProcess = Process.Start(aInfo);
+					aProcess.WaitForExit();
+
+					Invoke(new Action(() =>
+					{
+						ToolStripProgressBarStatus.Visible = false;
+					}));
+
+					if (aProcess.ExitCode != 0)
+					{
+						throw new Exception("結合中にエラーが発生しました。");
+					}
+					mLogWriter.ShowLogMessage(TraceEventType.Information, "結合完了しました。");
+				}
+				catch (Exception oExcep)
+				{
+					mLogWriter.ShowLogMessage(TraceEventType.Error, "結合処理実行時エラー：\n" + oExcep.Message);
+					mLogWriter.ShowLogMessage(Common.TRACE_EVENT_TYPE_STATUS, "　スタックトレース：\n" + oExcep.StackTrace);
+				}
+				finally
+				{
+					Invoke(new Action(() =>
+					{
+						ButtonGo.Enabled = true;
+						ToolStripProgressBarStatus.Visible = false;
+					}));
+				}
+			});
 		}
 
 		// --------------------------------------------------------------------
@@ -873,7 +911,21 @@ namespace MergeNicoKaraTracks.Forms
 			}
 		}
 
-		private void button1_Click(object sender, EventArgs e)
+		private async void ButtonGo_Click(object sender, EventArgs e)
+		{
+			try
+			{
+				Check();
+				await Merge();
+			}
+			catch (Exception oExcep)
+			{
+				mLogWriter.ShowLogMessage(TraceEventType.Error, "出力開始ボタンクリック時エラー：\n" + oExcep.Message);
+				mLogWriter.ShowLogMessage(Common.TRACE_EVENT_TYPE_STATUS, "　スタックトレース：\n" + oExcep.StackTrace);
+			}
+		}
+
+		private void ButtonClearAll_Click(object sender, EventArgs e)
 		{
 			try
 			{
@@ -885,20 +937,6 @@ namespace MergeNicoKaraTracks.Forms
 			catch (Exception oExcep)
 			{
 				mLogWriter.ShowLogMessage(TraceEventType.Error, "全クリアボタンクリック時エラー：\n" + oExcep.Message);
-				mLogWriter.ShowLogMessage(Common.TRACE_EVENT_TYPE_STATUS, "　スタックトレース：\n" + oExcep.StackTrace);
-			}
-		}
-
-		private void ButtonGo_Click(object sender, EventArgs e)
-		{
-			try
-			{
-				Check();
-				Merge();
-			}
-			catch (Exception oExcep)
-			{
-				mLogWriter.ShowLogMessage(TraceEventType.Error, "出力開始ボタンクリック時エラー：\n" + oExcep.Message);
 				mLogWriter.ShowLogMessage(Common.TRACE_EVENT_TYPE_STATUS, "　スタックトレース：\n" + oExcep.StackTrace);
 			}
 		}

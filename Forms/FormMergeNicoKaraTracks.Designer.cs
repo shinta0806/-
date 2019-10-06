@@ -82,9 +82,10 @@
 			this.ButtonBrowseInputMovieOff = new System.Windows.Forms.Button();
 			this.ButtonBrowseInputMovieOff2 = new System.Windows.Forms.Button();
 			this.OpenFileDialogMisc = new System.Windows.Forms.OpenFileDialog();
-			this.button1 = new System.Windows.Forms.Button();
+			this.ButtonClearAll = new System.Windows.Forms.Button();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.ToolStripStatusLabelStatus = new System.Windows.Forms.ToolStripStatusLabel();
+			this.ToolStripProgressBarStatus = new System.Windows.Forms.ToolStripProgressBar();
 			this.groupBox1.SuspendLayout();
 			this.statusStrip1.SuspendLayout();
 			this.SuspendLayout();
@@ -590,20 +591,21 @@
 			this.ButtonBrowseInputMovieOff2.UseVisualStyleBackColor = true;
 			this.ButtonBrowseInputMovieOff2.Click += new System.EventHandler(this.ButtonBrowseInputMovieOff2_Click);
 			// 
-			// button1
+			// ButtonClearAll
 			// 
-			this.button1.Location = new System.Drawing.Point(1008, 40);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(56, 24);
-			this.button1.TabIndex = 7;
-			this.button1.Text = "全クリア";
-			this.button1.UseVisualStyleBackColor = true;
-			this.button1.Click += new System.EventHandler(this.button1_Click);
+			this.ButtonClearAll.Location = new System.Drawing.Point(1008, 40);
+			this.ButtonClearAll.Name = "ButtonClearAll";
+			this.ButtonClearAll.Size = new System.Drawing.Size(56, 24);
+			this.ButtonClearAll.TabIndex = 7;
+			this.ButtonClearAll.Text = "全クリア";
+			this.ButtonClearAll.UseVisualStyleBackColor = true;
+			this.ButtonClearAll.Click += new System.EventHandler(this.ButtonClearAll_Click);
 			// 
 			// statusStrip1
 			// 
 			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ToolStripStatusLabelStatus});
+            this.ToolStripStatusLabelStatus,
+            this.ToolStripProgressBarStatus});
 			this.statusStrip1.Location = new System.Drawing.Point(0, 345);
 			this.statusStrip1.Name = "statusStrip1";
 			this.statusStrip1.Size = new System.Drawing.Size(1083, 22);
@@ -614,7 +616,16 @@
 			// ToolStripStatusLabelStatus
 			// 
 			this.ToolStripStatusLabelStatus.Name = "ToolStripStatusLabelStatus";
-			this.ToolStripStatusLabelStatus.Size = new System.Drawing.Size(0, 17);
+			this.ToolStripStatusLabelStatus.Size = new System.Drawing.Size(12, 17);
+			this.ToolStripStatusLabelStatus.Text = "-";
+			// 
+			// ToolStripProgressBarStatus
+			// 
+			this.ToolStripProgressBarStatus.MarqueeAnimationSpeed = 50;
+			this.ToolStripProgressBarStatus.Name = "ToolStripProgressBarStatus";
+			this.ToolStripProgressBarStatus.Size = new System.Drawing.Size(100, 16);
+			this.ToolStripProgressBarStatus.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
+			this.ToolStripProgressBarStatus.Visible = false;
 			// 
 			// FormMergeNicoKaraTracks
 			// 
@@ -623,7 +634,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1083, 367);
 			this.Controls.Add(this.statusStrip1);
-			this.Controls.Add(this.button1);
+			this.Controls.Add(this.ButtonClearAll);
 			this.Controls.Add(this.ButtonBrowseInputMovieOff2);
 			this.Controls.Add(this.ButtonBrowseInputMovieOff);
 			this.Controls.Add(this.ButtonBrowseInputMovieOn2);
@@ -746,9 +757,10 @@
 		private System.Windows.Forms.Button ButtonBrowseInputMovieOff;
 		private System.Windows.Forms.Button ButtonBrowseInputMovieOff2;
 		private System.Windows.Forms.OpenFileDialog OpenFileDialogMisc;
-		private System.Windows.Forms.Button button1;
+		private System.Windows.Forms.Button ButtonClearAll;
 		private System.Windows.Forms.StatusStrip statusStrip1;
 		private System.Windows.Forms.ToolStripStatusLabel ToolStripStatusLabelStatus;
+		private System.Windows.Forms.ToolStripProgressBar ToolStripProgressBarStatus;
 	}
 }
 

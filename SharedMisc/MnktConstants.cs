@@ -35,7 +35,7 @@ namespace MergeNicoKaraTracks.SharedMisc
 		// --------------------------------------------------------------------
 		public const String APP_ID = "MergeNicoKaraTracks";
 		public const String APP_NAME_J = "ニコカラ動画のオンボとオフボを結合";
-		public const String APP_VER = "Ver 1.10";
+		public const String APP_VER = "Ver 1.20";
 		public const String COPYRIGHT_J = "Copyright (C) 2019 by SHINTA";
 
 		// --------------------------------------------------------------------
